@@ -6,4 +6,4 @@ Man kann diese entweder in einer IDE setzen, oder ./gradlew bootRun --args='--sp
 
 Im Anschluss findet man die Anwendung im Browser unter localhost:9000
 
-
+Die Beschreibung der zu lösenden Problemstellung des Praktikums findet man in der Datei 'Projektbeschreibung.adoc'
