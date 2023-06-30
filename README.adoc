@@ -2,7 +2,7 @@ Um die Anwendung zu starten muss zuerst im Ordner Splitter: "docker compose up -
 
 Damit man die Webanwendung starten kann, muss im Ordner Spitter ./gradlew bootRun mit den Environment Variable Client-Id und Client-Secret ausführt werden.
 
-Man kann diese entweder in einer IDE setzen, oder ./gradlew bootRun --args='--spring.security.oauth2.client.registration.github.client-id=DIE_VORHANDENDE_ID --spring.security.oauth2.client.registration.github.client-secret=DAS_VORHANDENDE_SECRET' ausführen.
+Man kann diese entweder in einer IDE setzen, oder ./gradlew bootRun --args="--spring.security.oauth2.client.registration.github.client-id=DIE_VORHANDENDE_ID --spring.security.oauth2.client.registration.github.client-secret=DAS_VORHANDENDE_SECRET" ausführen.
 
 Im Anschluss findet man die Anwendung im Browser unter localhost:9000
 
