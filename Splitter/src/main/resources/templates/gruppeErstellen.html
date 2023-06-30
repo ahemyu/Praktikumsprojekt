@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"
+          th:href="@{css/bootstrap.min.css}">
+    <title> Gruppe erstellen</title>
+</head>
+<body class="bg-light">
+<header class="p-3 mb-4 bg-dark text-white">
+    <div class="container">
+        <strong>SPLITTER</strong>
+    </div>
+</header>
+<div class="container">
+    <h2 class="mb-4">Gruppe erstellen</h2>
+
+    <form method="post" th:action="@{/gruppeErstellen}" th:object="${gruppenName}">
+
+        <label for="gruppenName">Gruppenname eingeben:</label>
+        <div class="input-group">
+            <input class="form-control" type="text" id="gruppenName" name="gruppenName"
+                   th:field="*{gruppenName}">
+            <button class="btn btn-outline-primary" type="submit">Gruppe erstellen</button>
+        </div>
+
+        <span class="text-danger" th:text="${errornachricht}"> Error Nachricht </span>
+
+    </form>
+
+    <form th:action="@{/}">
+        <button class="btn btn-outline-secondary mt-5" type="submit">
+            Zurück zur Übersicht
+        </button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}">
+    <title>Ausgabe hinzufügen</title>
+
+</head>
+
+<body class="bg-light">
+
+<header class="p-3 mb-4 bg-dark text-white">
+    <div class="container">
+        <strong>SPLITTER</strong>
+    </div>
+</header>
+
+<div class="container">
+    <h2 class="mb-4">Ausgabe hinzufügen</h2>
+
+
+    <form th:action="@{/gruppe/{id}/ausgabeHinzufuegen(id=${darzustellendeGruppe.getId()})}" th:object="${ausgabe}"
+          method="post">
+        <div class="row">
+            <div class="col">
+                <label><strong>Wer hat bezahlt?:</strong></label>
+                <div class="form-check" th:each="person: ${darzustellendeGruppe.getPersonen()}">
+
+                    <input class="form-check-input" type="radio" th:field="*{zahlendePerson}" th:id="${person} + 1" th:value="${person}" name="zahlendePerson">
+                    <label class="form-check-label" th:for="${person} + 1" th:text="${person}">Person</label>
+                </div>
+            </div>
+
+            <div class="col">
+                <label><strong>Wer war alles beteiligt?:</strong></label>
+                <div class="form-check" th:each="person: ${darzustellendeGruppe.getPersonen()}">
+                    <input class="form-check-input" type="checkbox" th:field="*{teilnehmende}" th:value="${person}" th:id="${person}"
+                           name="teilnehmende">
+                    <label class="form-check-label" th:for="${person}" th:text="${person}">Lali</label>
+                </div>
+            </div>
+        </div>
+
+        <label class="form-label mt-4 mb-0" for="beschreibung"> Beschreibung der Ausgabe: </label>
+        <textarea class="form-control" type="text" id="beschreibung" name="beschreibung"></textarea>
+
+        <label class="mt-2" for="betrag"> Betrag in Euro: </label>
+        <div class="input-group">
+            <input class="form-control" type="number" min="0.01" step="0.01" id="betrag" name="betrag">
+            <button class="btn btn-outline-primary" type="submit">Ausgabe hinzufügen</button>
+        </div>
+    </form>
+
+    <span class="text-danger" th:text="${errornachricht}" > Error Nachricht </span>
+
+    <form th:action="@{/gruppe/{id}(id=${darzustellendeGruppe.getId()})}">
+        <button class="btn btn-outline-secondary mt-5" type="submit">Zurück zur Gruppe</button>
+    </form>
+</div>
+
+
+</body>
+</html>

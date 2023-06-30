@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}">
+
+    <style>
+
+        .beteiligt {
+            font-weight: bold;
+        }
+
+    </style>
+
+    <title>Ausgaben anzeigen</title>
+</head>
+
+<body class="bg-light">
+
+<header class="p-3 mb-4 bg-dark text-white">
+    <div class="container">
+        <strong>SPLITTER</strong>
+    </div>
+</header>
+
+<div class="container">
+    <h2 class="mb-4">Alle Ausgaben der Gruppe <span th:text="${darzustellendeGruppe.getName()}">Gruppenname</span>:</h2>
+
+    <span th:if="${darzustellendeGruppe.getAusgabenDarstellung().isEmpty()}">
+        <p>Es wurden noch keine Ausgaben getätigt</p>
+    </span>
+
+
+    <div th:if="${!darzustellendeGruppe.getAusgabenDarstellung().isEmpty()}">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ausgebende Person</th>
+                    <th>Teilnehmende</th>
+                    <th>Betrag</th>
+                    <th>Beschreibung</th>
+                </tr>
+            </thead>
+
+            <tbody th:each="ausgabe : ${alleAusgabenMitBeteiligung}">
+
+                <tr th:if="${ausgabe.beteiligt()}">
+                    <td class="beteiligt" th:text="${ausgabe.zahlendePerson()}">Ausgebende Person</td>
+                    <td class="beteiligt" th:text="${ausgabe.teilnehmende()}">Teilnehmende</td>
+                    <td class="beteiligt" th:text="${ausgabe.betrag()}">Betrag in Euro</td>
+                    <td class="beteiligt" th:text="${ausgabe.beschreibung()}">Beschreibung</td>
+                </tr>
+
+                <tr th:if="${!ausgabe.beteiligt()}">
+                    <td th:text="${ausgabe.zahlendePerson()}">Ausgebende Person</td>
+                    <td th:text="${ausgabe.teilnehmende()}">Teilnehmende</td>
+                    <td th:text="${ausgabe.betrag()}">Betrag in Euro</td>
+                    <td th:text="${ausgabe.beschreibung()}">Beschreibung</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <form th:action="@{/gruppe/{id}(id=${darzustellendeGruppe.getId()})}">
+        <button class="btn btn-outline-secondary mt-5" type="submit">Zurück zur Gruppe</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}">
+    <title>Gruppendetails</title>
+</head>
+
+<body class="bg-light">
+
+<header class="p-3 mb-4 bg-dark text-white">
+    <div class="container">
+        <strong>SPLITTER</strong>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2 class="mb-4">Gruppe <span th:text="${darzustellendeGruppe.getName()}">Gruppenname</span>: </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4>Alle Mitglieder</h4>
+            <!-- Liste der Personen -->
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex align-items-center" th:each="person : ${darzustellendeGruppe.getPersonen()}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>&nbsp;
+                    <span th:text="${person}">Max Mustermann</span></li>
+            </ul>
+            <div th:if="${!darzustellendeGruppe.istGeschlossen()}">
+                <div class="mt-4" th:if="${!darzustellendeGruppe.ausgabeSchonGetaetigt()}">
+                    <form method="post"
+                          th:action="@{/gruppe/{id}/personHinzufuegen(id=${darzustellendeGruppe.getId()})}">
+                        <input type="hidden" name="id" th:value="${darzustellendeGruppe.getId()}">
+                        <label for="personHinzufuegen" class="form-label">Person hinzufügen in Form eines Github-Namen:</label>
+                        <div class="input-group">
+                            <input class="form-control" id="personHinzufuegen" name="personName">
+                            <button class="btn btn-outline-primary" type="submit">Hinzufügen</button>
+                        </div>
+                    </form>
+
+                    <span class="text-danger" th:text="${errornachricht}"> Error Nachricht </span>
+                </div>
+                <p class="mt-4" th:if="${darzustellendeGruppe.ausgabeSchonGetaetigt()}">
+                    Es können keine Personen mehr hinzugefügt werden, da schon eine Ausgabe hinzugefügt wurde
+                </p>
+            </div>
+            <p class="mt-4" th:if="${darzustellendeGruppe.istGeschlossen()}">
+                Es können keine Personen mehr hinzugefügt werden, da die Gruppe bereits geschlossen ist
+            </p>
+        </div>
+
+        <div class="col">
+            <h4>Nötige Transaktionen zum Ausgleich</h4>
+
+            <table class="table" th:if="${!darzustellendeGruppe.getAusgleich().isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>Von</th>
+                        <th>An</th>
+                        <th>Betrag</th>
+                    </tr>
+                </thead>
+
+                <tbody th:remove="all-but-first">
+                    <tr th:each="balance : ${darzustellendeGruppe.getAusgleich()}">
+                        <td th:text="${balance.zahlende()}">ZahlendePerson</td>
+                        <td th:text="${balance.kassierende()}">KassierendePerson</td>
+                        <td th:text="${balance.betrag()}">ZuZahlenderBetrag</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <span th:if="${darzustellendeGruppe.getAusgleich().isEmpty()}">
+                <p>Keine Transaktionen sind notwendig</p>
+            </span>
+
+        </div>
+
+<div class="row mt-5 text-center">
+    <div class="col">
+        <form class="d-inline" th:action="@{/}">
+            <button class="btn btn-outline-secondary" type="submit">Zurück zur Übersicht</button>
+        </form>
+
+        <form class="d-inline" th:action="@{/gruppe/{id}/ausgabenAnzeigen(id=${darzustellendeGruppe.getId()})}">
+            <button class="btn btn-outline-primary" type="submit"> Ausgabe anzeigen</button>
+        </form>
+
+        <!-- Ausgabe hinzufügen -->
+        <form class="d-inline" th:if="${!darzustellendeGruppe.istGeschlossen()}" th:action="@{/gruppe/{id}/ausgabeHinzufuegen(id=${darzustellendeGruppe.getId()})}">
+            <button class="btn btn-outline-primary" type="submit">Ausgabe hinzufügen</button>
+        </form>
+
+
+        <!-- Gruppe schließen -->
+        <form class="d-inline" th:if="${!darzustellendeGruppe.istGeschlossen()}" method="post" th:action="@{/gruppe/{id}/gruppeSchliessen(id=${darzustellendeGruppe.getId()})}">
+            <button class="btn btn-outline-danger" type="submit">Gruppe schließen</button>
+        </form>
+
+        </div>
+</div>
+    </div>
+
+</body>
+</html>

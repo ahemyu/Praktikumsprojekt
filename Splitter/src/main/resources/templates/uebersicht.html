@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"
+          th:href="@{css/bootstrap.min.css}">
+    <title>Deine Gruppen</title>
+</head>
+<body class="bg-light">
+<header class="p-3 mb-4 bg-dark text-white">
+    <div class="container">
+        <strong>SPLITTER</strong>
+    </div>
+</header>
+<div class="container">
+    <h2 class="mb-4">Hallo <span th:text="${userName}"> </span> - Deine Gruppen: </h2>
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Offen</th>
+                    </tr>
+                </thead>
+
+                <tbody th:remove="all-but-first">
+                    <tr th:each="gruppe: ${gruppen}" th:if="${!gruppe.istGeschlossen()}">
+                        <td>
+                            <a title="Gruppendetails anzeigen" th:href="@{/gruppe/{id}(id=${gruppe.getId()})}" th:text="${gruppe.getName()}">Gruppe
+                                Details</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Geschlossen</th>
+                    </tr>
+                </thead>
+
+                <tbody th:remove="all-but-first">
+                    <tr th:each="gruppe: ${gruppen}" th:if="${gruppe.istGeschlossen()}">
+                        <td>
+                            <a th:href="@{/gruppe/{id}(id=${gruppe.getId()})}" th:text="${gruppe.getName()}">Gruppe
+                                Details</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form th:action="@{/gruppeErstellen}">
+        <button class="btn btn-outline-primary mt-5" type="submit"> Gruppe erstellen</button>
+    </form>
+</div>
+
+</body>
+</html>

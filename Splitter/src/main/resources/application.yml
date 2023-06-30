@@ -1,0 +1,23 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+<<<<<<< HEAD
+    url: jdbc:postgresql://database:5432/splitter
+=======
+    url: jdbc:postgresql://localhost:5432/splitter
+>>>>>>> working
+    password: pw
+    username: user
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${CLIENT_ID}
+            client-secret: ${CLIENT_SECRET}
+            scope: read:public_repo
+
+
+
